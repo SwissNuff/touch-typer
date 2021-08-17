@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
   return (
     <div>
-      <h2>Typing game React Demo</h2>
+      <h2>Typing Game React Demo</h2>
     </div>
   );
 };
