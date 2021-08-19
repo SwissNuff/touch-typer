@@ -19,10 +19,6 @@ const DisplayBoard = ({ displayText }) => {
     };
   }, [started]);
 
-  // const incrementTimer = () => {
-  //   setTimer((prevTimer) => prevTimer + 1);
-  // };
-
   const onKeyChange = (e) => {
     setText(e.target.value);
     if (!started) {
@@ -63,9 +59,9 @@ const DisplayBoard = ({ displayText }) => {
           if (index < userInput.length) {
             color = char === userInput[index] ? "green" : "maroon";
           }
-          if (userInput.length + index < userInput.length + 5) {
-            highlight = char === userInput[index] ? "gray" : "lightgray";
-          }
+          // if (userInput.length + index < userInput.length + 5) {
+          //   highlight = char === userInput[index] ? "gray" : "lightgray";
+          // }
           return (
             <span
               key={index}
