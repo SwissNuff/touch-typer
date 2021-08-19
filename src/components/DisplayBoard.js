@@ -46,7 +46,7 @@ const DisplayBoard = ({ displayText }) => {
             highlight = char === text[index] ? "green" : "gray";
           }
           return (
-            <span key={0} style={{ backgroundColor: highlight }}>
+            <span key={0} style={{ color: highlight }}>
               {char}
             </span>
           );
