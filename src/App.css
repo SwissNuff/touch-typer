@@ -12,7 +12,8 @@ body {
 }
 
 .container {
-  max-width: 600px;
+  max-width: 700px;
+
   margin: 30px;
 }
 
@@ -69,4 +70,9 @@ input[type="text"] {
   list-style-type: none;
   padding: 0;
   margin-bottom: 40px;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
 }

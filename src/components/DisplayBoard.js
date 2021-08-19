@@ -31,9 +31,23 @@ const DisplayBoard = ({ displayText }) => {
   };
 
   const onSubmitWord = (e) => {
+    setUserInput((prevInput) =>
+      prevInput === "" ? prevInput + text : prevInput + " " + text
+    );
     e.preventDefault();
     setText("");
     setIsCorrect(true);
+  };
+
+  const characterScore = () => {
+    let score = 0;
+    for (let i = 0; i < userInput.length; i++) {
+      if (userInput[i] === displayText[i]) {
+        score += 1;
+      }
+    }
+    let accuracy = (score / userInput.length) * 100;
+    return accuracy.toFixed(2);
   };
 
   return (
@@ -42,12 +56,12 @@ const DisplayBoard = ({ displayText }) => {
         {displayText.split("").map((char, index) => {
           let highlight;
 
-          if (index < text.length) {
-            highlight = char === text[index] ? "green" : "gray";
+          if (index < userInput.length) {
+            highlight = char === text[userInput.length] ? "green" : "maroon";
           }
           return (
-            <span key={0} style={{ color: highlight }}>
-              {char}
+            <span>
+              <span style={{ color: highlight }}>{char}</span>
             </span>
           );
         })}
@@ -69,7 +83,10 @@ const DisplayBoard = ({ displayText }) => {
           }}
         />
       </div>
-      <span>Timer: {timer} seconds</span>
+      <div class="scoreboard">
+        <span>Timer: {timer} seconds</span>
+        <span>Score: {characterScore()}</span>
+      </div>
     </div>
   );
 };
