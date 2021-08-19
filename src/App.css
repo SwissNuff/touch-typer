@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-  max-width: 700px;
+  max-width: 600px;
   margin: 30px;
 }
 
@@ -30,6 +30,10 @@ h3 {
 h4 {
   margin: 0;
   text-transform: uppercase;
+}
+
+p {
+  font-size: 18px;
 }
 
 label {
