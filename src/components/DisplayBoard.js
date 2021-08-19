@@ -58,20 +58,21 @@ const DisplayBoard = ({ displayText }) => {
           if (index < userInput.length) {
             color = char === userInput[index] ? "green" : "maroon";
           }
-          if (userInput.length + index < userInput.length + index) {
-            highlight = char === userInput[index] ? "green" : "maroon";
+          if (userInput.length + index < userInput.length + 5) {
+            highlight = char === userInput[index] ? "gray" : "lightgray";
           }
           return (
-            <span>
-              <span key={index} style={{ color: color }}>
-                {char}
-              </span>
+            <span
+              key={index}
+              style={{ color: color, backgroundColor: highlight }}
+            >
+              {char}
             </span>
           );
         })}
       </p>
 
-      <div class="input-cont">
+      <div className="input-cont">
         <input
           type="text"
           id="text"
@@ -87,7 +88,7 @@ const DisplayBoard = ({ displayText }) => {
           }}
         />
       </div>
-      <div class="scoreboard">
+      <div className="scoreboard">
         <span>Timer: {timer} seconds</span>
         <span>Score: {characterScore()}</span>
       </div>
