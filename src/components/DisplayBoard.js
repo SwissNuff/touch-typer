@@ -6,7 +6,6 @@ const DisplayBoard = ({ displayText }) => {
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
   const [userInput, setUserInput] = useState("");
-  const [isCorrect, setIsCorrect] = useState(false);
 
   useEffect(() => {
     if (started && !finished) {
@@ -36,7 +35,6 @@ const DisplayBoard = ({ displayText }) => {
     );
     e.preventDefault();
     setText("");
-    setIsCorrect(true);
   };
 
   const characterScore = () => {
@@ -55,13 +53,19 @@ const DisplayBoard = ({ displayText }) => {
       <p>
         {displayText.split("").map((char, index) => {
           let highlight;
+          let color;
 
           if (index < userInput.length) {
-            highlight = char === text[userInput.length] ? "green" : "maroon";
+            color = char === userInput[index] ? "green" : "maroon";
+          }
+          if (userInput.length + index < userInput.length + index) {
+            highlight = char === userInput[index] ? "green" : "maroon";
           }
           return (
             <span>
-              <span style={{ color: highlight }}>{char}</span>
+              <span key={index} style={{ color: color }}>
+                {char}
+              </span>
             </span>
           );
         })}

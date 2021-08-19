@@ -31,6 +31,7 @@ h3 {
 h4 {
   margin: 0;
   text-transform: uppercase;
+  font-weight: 100;
 }
 
 p {
@@ -74,5 +75,6 @@ input[type="text"] {
 
 .scoreboard {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
