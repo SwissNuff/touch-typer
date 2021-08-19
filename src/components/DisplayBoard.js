@@ -4,18 +4,24 @@ const DisplayBoard = ({ displayText }) => {
   const [text, setText] = useState("");
   const [timer, setTimer] = useState(0);
   const [started, setStarted] = useState(false);
-  const [finished, setFinished] = useState(false);
   const [userInput, setUserInput] = useState("");
 
   useEffect(() => {
-    if (started && !finished) {
-      var intervalID = setInterval(() => {
-        setTimer((prevTimer) => prevTimer + 1);
-      }, 1000);
-    } else {
-      clearInterval(intervalID); // Not working
+    if (!started) {
+      return;
     }
+    const intervalID = setInterval(() => {
+      setTimer((prevTimer) => prevTimer + 1);
+    }, 1000);
+    return () => {
+      clearInterval(intervalID);
+      setTimer(0);
+    };
   }, [started]);
+
+  // const incrementTimer = () => {
+  //   setTimer((prevTimer) => prevTimer + 1);
+  // };
 
   const onKeyChange = (e) => {
     setText(e.target.value);
@@ -25,8 +31,7 @@ const DisplayBoard = ({ displayText }) => {
   };
 
   const onBlur = () => {
-    setTimer(0);
-    setFinished(true);
+    setStarted(false);
   };
 
   const onSubmitWord = (e) => {
@@ -77,7 +82,7 @@ const DisplayBoard = ({ displayText }) => {
           type="text"
           id="text"
           placeholder="Type here..."
-          autocomplete="off"
+          autoComplete="off"
           value={text}
           onBlur={onBlur}
           onChange={onKeyChange}
