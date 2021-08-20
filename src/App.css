@@ -54,19 +54,6 @@ input[type="text"] {
   border-bottom: 2px solid #090900;
 }
 
-.btn {
-  cursor: pointer;
-  background-color: #9c88ff;
-  box-shadow: var(--box-shadow);
-  color: #fff;
-  border: 0;
-  display: block;
-  font-size: 16px;
-  margin: 10px 0 30px;
-  padding: 10px;
-  width: 100%;
-}
-
 .list {
   list-style-type: none;
   padding: 0;
