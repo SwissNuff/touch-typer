@@ -39,15 +39,24 @@ const DisplayBoard = ({ displayText }) => {
     setStartHighlight(0);
   };
 
+  const inputCleanup = (prevInput) => {
+    if (prevInput === "") {
+      prevInput = prevInput + text;
+    } else {
+      prevInput = prevInput + " " + text;
+    }
+    while (prevInput.length <= endHighlight) {
+      prevInput += "0";
+    }
+    return prevInput.slice(0, endHighlight + 1);
+  };
+
   const onSubmitWord = (e) => {
-    setUserInput((prevInput) =>
-      prevInput === "" ? prevInput + text : prevInput + " " + text
-    );
+    setUserInput(inputCleanup(userInput));
     e.preventDefault();
     setText("");
     setStartHighlight(
-      (prevStartHighlight) =>
-        displayText.indexOf(" ", prevStartHighlight + 1) + 1
+      (prevStartHighlight) => displayText.indexOf(" ", prevStartHighlight) + 1
     );
   };
 
@@ -62,11 +71,12 @@ const DisplayBoard = ({ displayText }) => {
     return accuracy.toFixed(2);
   };
 
+  const endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
+
   return (
     <div>
       <p>
         {displayText.split("").map((char, index) => {
-          let endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
           let highlightWord = startHighlight <= index && index <= endHighlight;
           let highlight;
           let color;
