@@ -5,7 +5,7 @@ import DisplayBoard from "./components/DisplayBoard";
 import Header from "./components/Header";
 
 function App() {
-  const [displayText, setDisplayText] = useState("Fetching GOT qoute...");
+  const [displayText, setDisplayText] = useState("Loading...");
 
   // For fetching Game of Thrones Qoute API
   useEffect(() => {
@@ -13,7 +13,7 @@ function App() {
       try {
         const response = await fetch("https://got-quotes.herokuapp.com/quotes");
         const json = await response.json();
-        setDisplayText(json.quote.replace(/[.,*’'`!?]/g, ""));
+        setDisplayText(json.quote.replace(/[.,*’'`!?]/g, "") + " ");
       } catch (error) {
         console.log("error", error);
       }

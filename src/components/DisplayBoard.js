@@ -7,6 +7,9 @@ const DisplayBoard = ({ displayText }) => {
   const [finished, setFinished] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [countInputWords, setCountInputWords] = useState(0);
+  const [startHighlight, setStartHighlight] = useState(0);
+
+  const countWords = displayText.split(" ").length;
 
   useEffect(() => {
     if (!started) {
@@ -41,6 +44,10 @@ const DisplayBoard = ({ displayText }) => {
     );
     e.preventDefault();
     setText("");
+    setStartHighlight(
+      (prevStartHighlight) =>
+        displayText.indexOf(" ", prevStartHighlight + 1) + 1
+    );
   };
 
   const characterScore = () => {
@@ -58,6 +65,8 @@ const DisplayBoard = ({ displayText }) => {
     <div>
       <p>
         {displayText.split("").map((char, index) => {
+          let endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
+          let highlightWord = startHighlight <= index && index <= endHighlight;
           let highlight;
           let color;
 
@@ -67,9 +76,9 @@ const DisplayBoard = ({ displayText }) => {
           if (!started) {
             color = "gray";
           }
-          // if (userInput.length + index < userInput.length + 5) {
-          //   highlight = char === userInput[index] ? "gray" : "lightgray";
-          // }
+          if (highlightWord) {
+            highlight = "lightgray";
+          }
           return (
             <span
               key={index}
