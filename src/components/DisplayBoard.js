@@ -4,7 +4,9 @@ const DisplayBoard = ({ displayText }) => {
   const [text, setText] = useState("");
   const [timer, setTimer] = useState(0);
   const [started, setStarted] = useState(false);
+  const [finished, setFinished] = useState(false);
   const [userInput, setUserInput] = useState("");
+  const [countInputWords, setCountInputWords] = useState(0);
 
   useEffect(() => {
     if (!started) {
@@ -28,6 +30,9 @@ const DisplayBoard = ({ displayText }) => {
 
   const onBlur = () => {
     setStarted(false);
+    setText("");
+    setUserInput("");
+    setCountInputWords(0);
   };
 
   const onSubmitWord = (e) => {
@@ -59,6 +64,9 @@ const DisplayBoard = ({ displayText }) => {
           if (index < userInput.length) {
             color = char === userInput[index] ? "green" : "maroon";
           }
+          if (!started) {
+            color = "gray";
+          }
           // if (userInput.length + index < userInput.length + 5) {
           //   highlight = char === userInput[index] ? "gray" : "lightgray";
           // }
@@ -85,6 +93,7 @@ const DisplayBoard = ({ displayText }) => {
           onKeyDown={(e) => {
             if (e.key === " ") {
               onSubmitWord(e);
+              setCountInputWords((prevCount) => prevCount + 1);
             }
           }}
         />
