@@ -36,6 +36,7 @@ const DisplayBoard = ({ displayText }) => {
     setText("");
     setUserInput("");
     setCountInputWords(0);
+    setStartHighlight(0);
   };
 
   const onSubmitWord = (e) => {
