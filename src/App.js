@@ -6,7 +6,6 @@ import Header from "./components/Header";
 
 function App() {
   const [displayText, setDisplayText] = useState("Loading...");
-  const [reset, setReset] = useState(0);
 
   // For fetching Game of Thrones Qoute API
   useEffect(() => {
@@ -20,11 +19,7 @@ function App() {
       }
     };
     fetchData();
-  }, [reset]);
-
-  const resetOnCLick = () => {
-    setReset((prevResetCount) => prevResetCount + 1);
-  };
+  }, []);
 
   return (
     <div className="container">

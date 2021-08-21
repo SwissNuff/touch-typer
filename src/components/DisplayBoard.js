@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-import Display from "./Display";
-import Input from "./Input";
-import Scoreboard from "./Scoreboard";
 
 const DisplayBoard = ({ displayText }) => {
   const [text, setText] = useState("");
@@ -11,6 +8,8 @@ const DisplayBoard = ({ displayText }) => {
   const [userInput, setUserInput] = useState("");
   const [countInputWords, setCountInputWords] = useState(0);
   const [startHighlight, setStartHighlight] = useState(0);
+
+  const countWords = displayText.split(" ").length;
 
   useEffect(() => {
     if (!started) {
@@ -52,27 +51,26 @@ const DisplayBoard = ({ displayText }) => {
     return prevInput.slice(0, endHighlight + 1);
   };
 
-  // const onSubmitWord = (e) => {
-  //   checkFinished();
-  //   setUserInput(inputCleanup(userInput));
-  //   e.preventDefault();
-  //   setText("");
+  const onSubmitWord = (e) => {
+    checkFinished();
+    setUserInput(inputCleanup(userInput));
+    e.preventDefault();
+    setText("");
+    setStartHighlight(
+      (prevStartHighlight) => displayText.indexOf(" ", prevStartHighlight) + 1
+    );
+  };
 
-  //   setStartHighlight(
-  //     (prevStartHighlight) => displayText.indexOf(" ", prevStartHighlight) + 1
-  //   );
-  // };
-
-  // const characterScore = () => {
-  //   let score = 0;
-  //   for (let i = 0; i < userInput.length; i++) {
-  //     if (userInput[i] === displayText[i]) {
-  //       score += 1;
-  //     }
-  //   }
-  //   let accuracy = (score / userInput.length) * 100;
-  //   return accuracy.toFixed(2);
-  // };
+  const characterScore = () => {
+    let score = 0;
+    for (let i = 0; i < userInput.length; i++) {
+      if (userInput[i] === displayText[i]) {
+        score += 1;
+      }
+    }
+    let accuracy = (score / userInput.length) * 100;
+    return accuracy.toFixed(2);
+  };
 
   const endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
 
@@ -84,26 +82,53 @@ const DisplayBoard = ({ displayText }) => {
   };
   return (
     <div>
-      {/* <Display
-        displayText={displayText}
-        startHighlight={startHighlight}
-        endHighlight={endHighlight}
-        userInput={userInput}
-        started={started}
-      /> */}
-      <Input
-        text={text}
-        countInputWords={countInputWords}
-        userInput={userInput}
-        onBlur={onBlur()}
-        onKeyChange={onKeyChange}
-        started={started}
-      />
-      {/* <Scoreboard
-        timer={timer}
-        userInput={userInput}
-        displayText={displayText}
-      /> */}
+      <p>
+        {displayText.split("").map((char, index) => {
+          let highlightWord = startHighlight <= index && index <= endHighlight;
+          let highlight;
+          let color;
+
+          if (index < userInput.length) {
+            color = char === userInput[index] ? "green" : "maroon";
+          }
+          if (!started) {
+            color = "gray";
+          }
+          if (highlightWord) {
+            highlight = "lightgray";
+          }
+          return (
+            <span
+              key={index}
+              style={{ color: color, backgroundColor: highlight }}
+            >
+              {char}
+            </span>
+          );
+        })}
+      </p>
+
+      <div className="input-cont">
+        <input
+          type="text"
+          id="text"
+          placeholder="Type here..."
+          autoComplete="off"
+          value={text}
+          onBlur={onBlur}
+          onChange={onKeyChange}
+          onKeyDown={(e) => {
+            if (e.key === " ") {
+              onSubmitWord(e);
+              setCountInputWords((prevCount) => prevCount + 1);
+            }
+          }}
+        />
+      </div>
+      <div className="scoreboard">
+        <span>Timer: {timer} seconds</span>
+        <span>Score: {characterScore()}</span>
+      </div>
     </div>
   );
 };
