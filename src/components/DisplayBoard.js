@@ -52,7 +52,6 @@ const DisplayBoard = ({ displayText }) => {
   };
 
   const onSubmitWord = (e) => {
-    checkFinished();
     setUserInput(inputCleanup(userInput));
     e.preventDefault();
     setText("");
@@ -74,12 +73,6 @@ const DisplayBoard = ({ displayText }) => {
 
   const endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
 
-  const checkFinished = () => {
-    console.log(displayText.length, endHighlight);
-    if (endHighlight + 2 >= displayText.length) {
-      setFinished(true);
-    }
-  };
   return (
     <div>
       <p>
