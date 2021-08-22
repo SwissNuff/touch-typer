@@ -1,15 +1,29 @@
 import { useState, useEffect } from "react";
 
-const DisplayBoard = ({ displayText }) => {
+const DisplayBoard = () => {
   const [text, setText] = useState("");
   const [timer, setTimer] = useState(0);
   const [started, setStarted] = useState(false);
-  const [finished, setFinished] = useState(false);
+  const [loadNewGame, setLoadNewGame] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [countInputWords, setCountInputWords] = useState(0);
   const [startHighlight, setStartHighlight] = useState(0);
+  const [displayText, setDisplayText] = useState("Loading...");
 
-  const countWords = displayText.split(" ").length;
+  // For fetching Game of Thrones Qoute API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://got-quotes.herokuapp.com/quotes");
+        const json = await response.json();
+        setDisplayText(json.quote.replace(/[.,*’'`!?]/g, "") + " ");
+      } catch (error) {
+        console.log("error", error);
+      }
+      reset();
+    };
+    fetchData();
+  }, [loadNewGame]);
 
   useEffect(() => {
     if (!started) {
@@ -22,7 +36,7 @@ const DisplayBoard = ({ displayText }) => {
       clearInterval(intervalID);
       setTimer(0);
     };
-  }, [started]);
+  }, [started, loadNewGame]);
 
   const onKeyChange = (e) => {
     setText(e.target.value);
@@ -33,6 +47,10 @@ const DisplayBoard = ({ displayText }) => {
 
   const onBlur = () => {
     setStarted(false);
+    reset();
+  };
+
+  const reset = () => {
     setText("");
     setUserInput("");
     setCountInputWords(0);
@@ -55,6 +73,7 @@ const DisplayBoard = ({ displayText }) => {
     setUserInput(inputCleanup(userInput));
     e.preventDefault();
     setText("");
+    checkIsFinished();
     setStartHighlight(
       (prevStartHighlight) => displayText.indexOf(" ", prevStartHighlight) + 1
     );
@@ -72,6 +91,12 @@ const DisplayBoard = ({ displayText }) => {
   };
 
   const endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
+
+  const checkIsFinished = () => {
+    if (endHighlight + 2 >= displayText.length) {
+      setLoadNewGame((prevCount) => prevCount + 1);
+    }
+  };
 
   return (
     <div>
@@ -114,6 +139,9 @@ const DisplayBoard = ({ displayText }) => {
             if (e.key === " ") {
               onSubmitWord(e);
               setCountInputWords((prevCount) => prevCount + 1);
+            }
+            if (e.key === "Escape") {
+              setLoadNewGame((prevCount) => prevCount + 1);
             }
           }}
         />
