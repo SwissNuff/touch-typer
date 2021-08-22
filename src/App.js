@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import "./App.css";
 
 import DisplayBoard from "./components/DisplayBoard";

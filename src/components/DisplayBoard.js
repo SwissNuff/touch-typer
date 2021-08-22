@@ -6,7 +6,6 @@ const DisplayBoard = () => {
   const [started, setStarted] = useState(false);
   const [loadNewGame, setLoadNewGame] = useState(0);
   const [userInput, setUserInput] = useState("");
-  const [countInputWords, setCountInputWords] = useState(0);
   const [startHighlight, setStartHighlight] = useState(0);
   const [displayText, setDisplayText] = useState("Loading...");
   const [score, setScore] = useState(0);
@@ -54,7 +53,6 @@ const DisplayBoard = () => {
   const reset = () => {
     setText("");
     setUserInput("");
-    setCountInputWords(0);
     setStartHighlight(0);
   };
 
@@ -74,7 +72,6 @@ const DisplayBoard = () => {
     setUserInput(inputCleanup(userInput));
     e.preventDefault();
     setText("");
-    checkIsFinished();
     setStartHighlight(
       (prevStartHighlight) => displayText.indexOf(" ", prevStartHighlight) + 1
     );
@@ -93,9 +90,9 @@ const DisplayBoard = () => {
   const endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
 
   const checkIsFinished = () => {
-    if (endHighlight + 2 >= displayText.length) {
+    if (startHighlight + text.length + 2 >= displayText.length) {
       setLoadNewGame((prevCount) => prevCount + 1);
-      setScore(Math.round(((60 / timer) * characterScore()) / 8));
+      setScore(Math.round(((60 / timer) * characterScore()) / 5));
     }
   };
 
@@ -137,9 +134,9 @@ const DisplayBoard = () => {
           onBlur={onBlur}
           onChange={onKeyChange}
           onKeyDown={(e) => {
+            checkIsFinished();
             if (e.key === " ") {
               onSubmitWord(e);
-              setCountInputWords((prevCount) => prevCount + 1);
             }
             if (e.key === "Escape") {
               setLoadNewGame((prevCount) => prevCount + 1);
