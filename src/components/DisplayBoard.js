@@ -9,6 +9,7 @@ const DisplayBoard = () => {
   const [countInputWords, setCountInputWords] = useState(0);
   const [startHighlight, setStartHighlight] = useState(0);
   const [displayText, setDisplayText] = useState("Loading...");
+  const [score, setScore] = useState(0);
 
   // For fetching Game of Thrones Qoute API
   useEffect(() => {
@@ -86,8 +87,7 @@ const DisplayBoard = () => {
         score += 1;
       }
     }
-    let accuracy = (score / userInput.length) * 100;
-    return accuracy.toFixed(2);
+    return score;
   };
 
   const endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
@@ -95,6 +95,7 @@ const DisplayBoard = () => {
   const checkIsFinished = () => {
     if (endHighlight + 2 >= displayText.length) {
       setLoadNewGame((prevCount) => prevCount + 1);
+      setScore(Math.round(((60 / timer) * characterScore()) / 8));
     }
   };
 
@@ -148,7 +149,14 @@ const DisplayBoard = () => {
       </div>
       <div className="scoreboard">
         <span>Timer: {timer} seconds</span>
-        <span>Score: {characterScore()}</span>
+        <span>
+          Accuracy: {((characterScore() / userInput.length) * 100).toFixed(2)}
+        </span>
+        {loadNewGame > 0 ? (
+          <>
+            <span style={{ color: "green" }}>WPM: {score}</span>
+          </>
+        ) : null}
       </div>
     </div>
   );
