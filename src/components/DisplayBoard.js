@@ -78,13 +78,13 @@ const DisplayBoard = () => {
   };
 
   const characterScore = () => {
-    let score = 0;
+    let correctCharacters = 0;
     for (let i = 0; i < userInput.length; i++) {
       if (userInput[i] === displayText[i]) {
-        score += 1;
+        correctCharacters += 1;
       }
     }
-    return score;
+    return correctCharacters;
   };
 
   const endHighlight = displayText.indexOf(" ", startHighlight + 1) - 1;
